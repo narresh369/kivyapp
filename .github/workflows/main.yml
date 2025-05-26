@@ -41,11 +41,11 @@ jobs:
 		  "platform-tools" "platforms;android-31" "build-tools;31.0.0" "ndk;23.1.7779620"
 
     - name: Build APK
-	  env:
-		ANDROID_SDK_ROOT: $HOME/android-sdk
-		PATH: $HOME/.local/bin:$HOME/android-sdk/platform-tools:$HOME/android-sdk/cmdline-tools/latest/bin:$PATH
-	  run: |
-		buildozer android debug
+      env:
+        ANDROID_SDK_ROOT: ${{ env.HOME }}/android-sdk
+        PATH: ${{ env.HOME }}/.local/bin:${{ env.HOME }}/android-sdk/platform-tools:${{ env.HOME }}/android-sdk/cmdline-tools/latest/bin:$PATH
+      run: |
+        buildozer android debug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
