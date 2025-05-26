@@ -32,8 +32,11 @@ jobs:
 
         # Download and unzip the command line tools
         curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip sdk.zip -d latest
+        unzip sdk.zip
         rm sdk.zip
+
+        # Move extracted cmdline-tools to 'latest'
+        mv cmdline-tools latest
 
         # Accept licenses and install necessary components
         yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
