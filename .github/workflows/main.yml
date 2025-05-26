@@ -34,14 +34,21 @@ jobs:
       run: |
         mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
         curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip sdk.zip -d "$ANDROID_SDK_ROOT/cmdline-tools"
+        unzip commandlinetools-linux-9477386_latest.zip -d $ANDROID_SDK_ROOT/cmdline-tools
+        mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
+
         rm sdk.zip
   
         # Move cmdline-tools folder to 'latest' directory as expected
         mv "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools" "$ANDROID_SDK_ROOT/cmdline-tools/latest"
   
         # Use sdkmanager from the correct location
-        yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses
+        export ANDROID_SDK_ROOT=$HOME/android-sdk
+		export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
+
+		yes | sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
+		sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "platforms;android-31" "build-tools;33.0.2" "ndk;23.1.7779620"
+
   
         "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" \
           "platform-tools" "platforms;android-31" "build-tools;33.0.2" "ndk;23.1.7779620"
