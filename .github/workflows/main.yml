@@ -25,7 +25,7 @@ jobs:
 
     - name: Set up Android SDK
       env:
-        ANDROID_SDK_ROOT: $HOME/android-sdk
+        ANDROID_SDK_ROOT: ${{ env.HOME }}/android-sdk
       run: |
         mkdir -p $ANDROID_SDK_ROOT/cmdline-tools/latest
         cd $ANDROID_SDK_ROOT/cmdline-tools
