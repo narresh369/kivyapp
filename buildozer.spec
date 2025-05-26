@@ -11,6 +11,7 @@ osx.python_version = 3
 android.api = 33
 android.minapi = 21
 android.permissions = INTERNET
+android.sdk_path = $HOME/android-sdk
 
 [buildozer]
 log_level = 2
