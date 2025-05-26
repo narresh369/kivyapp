@@ -35,7 +35,7 @@ jobs:
         unzip sdk.zip -d temp
         rm sdk.zip
 
-        mv temp/cmdline-tools/* "$ANDROID_SDK_ROOT/cmdline-tools/latest/"
+        mv temp/cmdline-tools/* latest/
         rm -rf temp
 
         yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses
