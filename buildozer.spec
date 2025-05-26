@@ -10,6 +10,7 @@ requirements = python3,kivy,./libs/pyjnius
 orientation = portrait
 osx.python_version = 3
 
+
 # Android specific
 ## android.api = 31
 android.sdk = 31
