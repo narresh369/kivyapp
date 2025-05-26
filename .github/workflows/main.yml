@@ -24,7 +24,7 @@ jobs:
         pip install --upgrade pip setuptools wheel cython buildozer
 
     - name: Set up Android SDK
-	  run: |
+      run: |
 		export ANDROID_SDK_ROOT="$HOME/android-sdk"
 		mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools/latest"
 		cd "$ANDROID_SDK_ROOT/cmdline-tools"
