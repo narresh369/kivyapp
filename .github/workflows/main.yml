@@ -42,7 +42,7 @@ jobs:
     
        yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses
        "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" \
-       "platform-tools" "platforms;android-31" "build-tools;31.0.0" "ndk;23.1.7779620"
+       "platform-tools" "platforms;android-31" "build-tools;31.0.0" "ndk;23.1.7779620" "tools"
 
     - name: Ensure git installed
       run: sudo apt-get install -y git
