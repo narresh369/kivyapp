@@ -8,10 +8,17 @@ version = 1.0
 requirements = python3,kivy
 orientation = portrait
 osx.python_version = 3
-android.api = 33
+# Android specific
+android.api = 31
+android.sdk = 31
+android.ndk = 23b
+android.ndk_path = 
+android.sdk_path = 
+android.ndk_api = 21
 android.minapi = 21
 android.permissions = INTERNET
 android.sdk_path = $HOME/android-sdk
+
 
 [buildozer]
 log_level = 2
