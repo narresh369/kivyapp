@@ -10,7 +10,7 @@ orientation = portrait
 osx.python_version = 3
 
 # Android specific
-android.api = 31
+#android.api = 31
 android.sdk = 31
 android.ndk = 23b
 android.ndk_api = 21
