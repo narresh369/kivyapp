@@ -22,6 +22,9 @@ jobs:
         sudo apt update
         sudo apt install -y zip unzip openjdk-17-jdk python3-pip git libssl-dev
         pip install --upgrade pip setuptools wheel cython buildozer
+        
+    - name: Check git version
+      run: git --version     
 
     - name: Set up Android SDK
       run: |
@@ -40,6 +43,9 @@ jobs:
        yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses
        "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" \
        "platform-tools" "platforms;android-31" "build-tools;31.0.0" "ndk;23.1.7779620"
+
+    - name: Ensure git installed
+      run: sudo apt-get install -y git
 
 
     - name: Build APK
