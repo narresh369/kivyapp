@@ -56,7 +56,7 @@ jobs:
         echo "Git version in PATH:"
         git --version
 
-        echo "Building APK..."
+        echo "Building APK...!!"
         buildozer android debug
 
     - name: Upload APK
