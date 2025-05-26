@@ -27,15 +27,17 @@ jobs:
       env:
         ANDROID_SDK_ROOT: $HOME/android-sdk
       run: |
-        mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
-        cd $ANDROID_SDK_ROOT/cmdline-tools
+        mkdir -p $ANDROID_SDK_ROOT/cmdline-tools/latest
+		cd $ANDROID_SDK_ROOT/cmdline-tools
 
-        curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip sdk.zip -d temp
-        rm sdk.zip
+		curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+		unzip sdk.zip -d temp
+		rm sdk.zip
 
-        # Move extracted folder contents to 'latest'
-        mv temp/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
+		# Move extracted folder contents inside 'latest'
+		mv temp/cmdline-tools/* $ANDROID_SDK_ROOT/cmdline-tools/latest/
+		rm -rf temp
+
 
         # Accept licenses and install required packages
         yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
