@@ -37,10 +37,12 @@ jobs:
         mv "${ANDROID_SDK_ROOT}/cmdline-tools/cmdline-tools" "${ANDROID_SDK_ROOT}/cmdline-tools/latest"
 
         export PATH="${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:$PATH"
+        export ANDROID_NDK_HOME=/home/runner/android-sdk/ndk/25.2.9519653
 
         # Clean build-tools and NDK directories
          rm -rf "$ANDROID_SDK_ROOT/build-tools/33.0.2"
          rm -rf "$ANDROID_SDK_ROOT/ndk/23.1.7779620"  # clean old NDK if exists
+         rm -rf /home/runner/android-sdk/ndk/23.1.7779620
 
         yes | "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" --licenses
         "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" \
@@ -64,7 +66,7 @@ jobs:
         else
           echo "Old NDK 23 directory does not exist"
         fi
-
+        
     - name: Build APK
       run: |
         echo "Git version in PATH:"
