@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt update
-        sudo apt install -y zip unzip openjdk-17-jdk python3-pip git libssl-dev libtool-bin libtool automake autoconf m4
+        sudo apt install -y zip unzip openjdk-17-jdk python3-pip git libssl-dev libltdl-dev libtool-bin libtool automake autoconf m4
         pip install --upgrade pip setuptools wheel cython buildozer virtualenv
 
     - name: Set up Android SDK
@@ -76,6 +76,7 @@ jobs:
         git --version
 
         echo "Building APK...!!"
+        source venv/bin/activate
         buildozer android clean
         buildozer android debug
 
