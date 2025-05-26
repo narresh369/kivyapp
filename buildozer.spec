@@ -5,7 +5,7 @@ package.domain = org.test
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 version = 1.0
-requirements = python3,kivy,pyjnius,https://github.com/kivy/pyjnius/archive/master.zip
+requirements = python3,kivy,https://github.com/kivy/pyjnius/archive/master.zip
 orientation = portrait
 osx.python_version = 3
 
