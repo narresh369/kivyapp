@@ -74,6 +74,7 @@ jobs:
       run: |
         echo "Git version in PATH:"
         git --version
+        rm -rf .buildozer .cache
 
         echo "Building APK...!!"
         #buildozer android clean
