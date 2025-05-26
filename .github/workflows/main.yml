@@ -28,17 +28,17 @@ jobs:
 
     - name: Set up Android SDK
       run: |
-        mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools/latest"
-        curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip sdk.zip -d "$ANDROID_SDK_ROOT/cmdline-tools/latest"
-        rm sdk.zip
+        export ANDROID_SDK_ROOT="$HOME/android-sdk"
 
-        mv temp/cmdline-tools/* latest/
-        rm -rf temp
+         mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools/latest"
+         curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+         unzip sdk.zip -d "$ANDROID_SDK_ROOT/cmdline-tools/latest"
+         rm sdk.zip
 
-        yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses
-        "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" \
-          "platform-tools" "platforms;android-31" "build-tools;33.0.2" "ndk;23.1.7779620"
+         yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/cmdline-tools/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses
+
+         "$ANDROID_SDK_ROOT/cmdline-tools/latest/cmdline-tools/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" \
+         "platform-tools" "platforms;android-31" "build-tools;33.0.2" "ndk;23.1.7779620"
 
     - name: Build APK
       run: |
