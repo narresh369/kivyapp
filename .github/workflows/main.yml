@@ -33,19 +33,19 @@ jobs:
       run: |
         export ANDROID_SDK_ROOT="$HOME/android-sdk"
         mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
-
+        
         curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
         unzip sdk.zip -d "$ANDROID_SDK_ROOT/cmdline-tools"
         rm sdk.zip
-
-        # The unzip creates $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools
-        # So move it to latest:
+        
+        # Move extracted 'cmdline-tools' folder to 'latest'
         mv "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools" "$ANDROID_SDK_ROOT/cmdline-tools/latest"
-
+        
+        # Now use sdkmanager from the correct path:
         yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses
-
+        
         "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" \
-        "platform-tools" "platforms;android-31" "build-tools;33.0.2" "ndk;23.1.7779620"
+          "platform-tools" "platforms;android-31" "build-tools;33.0.2" "ndk;23.1.7779620"
 
     - name: Build APK
       env:
