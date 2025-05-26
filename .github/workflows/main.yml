@@ -54,7 +54,6 @@ jobs:
         echo "ANDROID_NDK_HOME=${HOME}/android-sdk/ndk/23.1.7779620" >> $GITHUB_ENV
         echo "PATH=${HOME}/android-sdk/build-tools/33.0.2:${HOME}/android-sdk/platform-tools:${HOME}/android-sdk/cmdline-tools/latest/bin:$PATH" >> $GITHUB_ENV
           
-
     - name: Build APK
       env:
         ANDROID_SDK_ROOT: ${{ env.HOME }}/android-sdk
