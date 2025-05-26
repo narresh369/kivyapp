@@ -23,19 +23,23 @@ jobs:
         sudo apt install -y zip unzip openjdk-17-jdk python3-pip git libssl-dev
         pip install --upgrade pip setuptools wheel cython buildozer
 
-    - name: Set up Android SDK
+        - name: Set up Android SDK
       env:
         ANDROID_SDK_ROOT: $HOME/android-sdk
       run: |
         mkdir -p $ANDROID_SDK_ROOT/cmdline-tools
         cd $ANDROID_SDK_ROOT/cmdline-tools
+
+        # Download and unzip the command line tools
         curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip sdk.zip -d tmp
+        unzip sdk.zip -d latest
         rm sdk.zip
-        mv tmp/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
+
+        # Accept licenses and install necessary components
         yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT --licenses
         $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT \
           "platform-tools" "platforms;android-31" "build-tools;31.0.0" "ndk;23.1.7779620"
+
 
     - name: Build APK
       env:
