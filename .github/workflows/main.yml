@@ -44,6 +44,9 @@ jobs:
          rm -rf "$ANDROID_SDK_ROOT/ndk/23.1.7779620"  # clean old NDK if exists
          rm -rf /home/runner/android-sdk/ndk/23.1.7779620
 
+         # Remove existing NDKs to avoid conflicts
+         rm -rf "${ANDROID_SDK_ROOT}/ndk" || true
+
         yes | "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" --licenses
         "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" \
           "platform-tools" \
