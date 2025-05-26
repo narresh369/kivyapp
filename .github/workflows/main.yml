@@ -50,7 +50,7 @@ jobs:
     - name: Debug AIDL path
       run: |
         echo "Searching for aidl..."
-        find $HOME/android-sdk -name aidl || echo "aidl NOT found!"
+        find $HOME/android-sdk -name aidl || echo "aidl NOT found!!"
 
 
     - name: Build APK
