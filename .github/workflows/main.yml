@@ -9,11 +9,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # DO NOT set $HOME in env this way - variables won't expand properly
-    # Instead, set in shell scripts.
     env:
-      ANDROID_SDK_ROOT: ${{ env.HOME }}/android-sdk
-      PATH: /usr/bin:${{ env.HOME }}/.local/bin:${{ env.HOME }}/android-sdk/build-tools/33.0.2:${{ env.HOME }}/android-sdk/platform-tools:${{ env.HOME }}/android-sdk/cmdline-tools/latest/bin:$PATH
+      ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
+      PATH: /usr/bin:${{ github.workspace }}/.local/bin:${{ github.workspace }}/android-sdk/build-tools/33.0.2:${{ github.workspace }}/android-sdk/platform-tools:${{ github.workspace }}/android-sdk/cmdline-tools/latest/bin:$PATH
 
     steps:
     - uses: actions/checkout@v3
@@ -31,33 +29,29 @@ jobs:
 
     - name: Set up Android SDK
       run: |
-        mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools"
+        mkdir -p "${ANDROID_SDK_ROOT}/cmdline-tools"
         curl -o sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip sdk.zip -d "$ANDROID_SDK_ROOT/cmdline-tools"
+        unzip sdk.zip -d "${ANDROID_SDK_ROOT}/cmdline-tools"
         rm sdk.zip
-  
-        # Move cmdline-tools folder to 'latest' directory as expected
-        mv "$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools" "$ANDROID_SDK_ROOT/cmdline-tools/latest"
 
-        export ANDROID_SDK_ROOT=$HOME/android-sdk
-	export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
-  
-        # Use sdkmanager from the correct location
-        yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses
-  
-        "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" \
-          "platform-tools" "platforms;android-31" "build-tools;33.0.2" "ndk;23.1.7779620"
+        mv "${ANDROID_SDK_ROOT}/cmdline-tools/cmdline-tools" "${ANDROID_SDK_ROOT}/cmdline-tools/latest"
+
+        export PATH="${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:$PATH"
+
+        yes | "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" --licenses
+        "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" \
+          "platform-tools" \
+          "platforms;android-31" \
+          "build-tools;33.0.2" \
+          "ndk;23.1.7779620"
 
     - name: Export Android environment variables
       run: |
-        echo "ANDROID_SDK_ROOT=${HOME}/android-sdk" >> $GITHUB_ENV
-        echo "ANDROID_NDK_HOME=${HOME}/android-sdk/ndk/23.1.7779620" >> $GITHUB_ENV
-        echo "PATH=${HOME}/android-sdk/build-tools/33.0.2:${HOME}/android-sdk/platform-tools:${HOME}/android-sdk/cmdline-tools/latest/bin:$PATH" >> $GITHUB_ENV
-          
+        echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT}" >> $GITHUB_ENV
+        echo "ANDROID_NDK_HOME=${ANDROID_SDK_ROOT}/ndk/23.1.7779620" >> $GITHUB_ENV
+        echo "PATH=${ANDROID_SDK_ROOT}/build-tools/33.0.2:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:$PATH" >> $GITHUB_ENV
+
     - name: Build APK
-      env:
-        ANDROID_SDK_ROOT: ${{ env.HOME }}/android-sdk
-        PATH: /usr/bin:${{ env.HOME }}/.local/bin:${{ env.HOME }}/android-sdk/build-tools/33.0.2:${{ env.HOME }}/android-sdk/platform-tools:${{ env.HOME }}/android-sdk/cmdline-tools/latest/bin:$PATH
       run: |
         echo "Git version in PATH:"
         git --version
