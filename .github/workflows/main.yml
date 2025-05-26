@@ -52,6 +52,12 @@ jobs:
         echo "ANDROID_NDK_HOME=${ANDROID_SDK_ROOT}/ndk/23.1.7779620" >> $GITHUB_ENV
         echo "PATH=${ANDROID_SDK_ROOT}/build-tools/33.0.2:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:$PATH" >> $GITHUB_ENV
 
+    - name: Clean NDK directory if exists
+      run: |
+        if [ -e "$HOME/android-sdk/ndk/23.1.7779620" ]; then
+          rm -rf "$HOME/android-sdk/ndk/23.1.7779620"
+        fi
+
     - name: Build APK
       run: |
         echo "Git version in PATH:"
