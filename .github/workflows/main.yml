@@ -47,6 +47,10 @@ jobs:
     - name: Ensure git installed
       run: sudo apt-get install -y git
 
+    - name: Clean old build cache
+      run: |
+        rm -rf .buildozer bin
+
 
     - name: Build APK
       env:
