@@ -18,6 +18,8 @@ android.minapi = 21
 android.permissions = INTERNET
 android.sdk_path = /home/runner/android-sdk
 android.ndk_path = /home/runner/android-sdk/ndk/23.1.7779620
+android.accept_sdk_license = True
+android.skip_update = False
 
 [buildozer]
 log_level = 2
