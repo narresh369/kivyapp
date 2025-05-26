@@ -56,7 +56,7 @@ jobs:
         echo "Git version in PATH:"
         git --version
 
-        echo "Cleaning previous build..."
+        echo "Cleaning previous build...!"
         buildozer android clean
 
         echo "Building APK..."
