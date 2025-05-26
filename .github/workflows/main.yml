@@ -51,9 +51,16 @@ jobs:
     - name: Build APK
       env:
         ANDROID_SDK_ROOT: ${{ env.HOME }}/android-sdk
-        PATH: ${{ env.HOME }}/.local/bin:${{ env.HOME }}/android-sdk/build-tools/33.0.2:${{ env.HOME }}/android-sdk/platform-tools:${{ env.HOME }}/android-sdk/cmdline-tools/latest/bin:$PATH
+        PATH: /usr/bin:${{ env.HOME }}/.local/bin:${{ env.HOME }}/android-sdk/build-tools/33.0.2:${{ env.HOME }}/android-sdk/platform-tools:${{ env.HOME }}/android-sdk/cmdline-tools/latest/bin:$PATH
       run: |
-         buildozer android debug
+        echo "Git version in PATH:"
+        git --version
+
+        echo "Cleaning previous build..."
+        buildozer android clean
+
+        echo "Building APK..."
+        buildozer android debug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
