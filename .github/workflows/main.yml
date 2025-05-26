@@ -47,13 +47,17 @@ jobs:
     - name: Ensure git installed
       run: sudo apt-get install -y git
 
+    - name: Debug AIDL path
+      run: |
+        echo "Searching for aidl..."
+        find $HOME/android-sdk -name aidl || echo "aidl NOT found!"
+
 
     - name: Build APK
       env:
         ANDROID_SDK_ROOT: ${{ env.HOME }}/android-sdk
         PATH: ${{ env.HOME }}/.local/bin:${{ env.HOME }}/android-sdk/build-tools/33.0.2:${{ env.HOME }}/android-sdk/platform-tools:${{ env.HOME }}/android-sdk/cmdline-tools/latest/bin:$PATH
-      run: |
-        which aidl
+      run: |        
         buildozer android debug
 
     - name: Upload APK
