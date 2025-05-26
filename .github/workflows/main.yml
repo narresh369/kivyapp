@@ -38,6 +38,10 @@ jobs:
 
         export PATH="${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:$PATH"
 
+        # Clean build-tools and NDK directories
+         rm -rf "$ANDROID_SDK_ROOT/build-tools/33.0.2"
+         rm -rf "$ANDROID_SDK_ROOT/ndk/23.1.7779620"  # clean old NDK if exists
+
         yes | "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" --licenses
         "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" \
           "platform-tools" \
@@ -49,7 +53,7 @@ jobs:
     - name: Export Android environment variables
       run: |
         echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT}" >> $GITHUB_ENV
-        echo "ANDROID_NDK_HOME=${ANDROID_SDK_ROOT}/ndk/23.1.7779620" >> $GITHUB_ENV
+        echo "ANDROID_NDK_HOME=${ANDROID_SDK_ROOT}/ndk/25.2.9519653" >> $GITHUB_ENV
         echo "PATH=${ANDROID_SDK_ROOT}/build-tools/33.0.2:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:$PATH" >> $GITHUB_ENV
 
     - name: Clean NDK directory if exists
