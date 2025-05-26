@@ -77,8 +77,8 @@ jobs:
         rm -rf .buildozer .cache
 
         echo "Building APK...!!"
-        #buildozer android clean
-        buildozer android debug --requirements=python3,kivy,https://github.com/kivy/pyjnius/archive/master.zip
+        buildozer android clean
+        buildozer android debug --requirements=python3,kivy
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
