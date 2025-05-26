@@ -33,4 +33,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: kivy-apk
-        path: bin/*.apk
+        path: kivyapp/bin/*.apk
