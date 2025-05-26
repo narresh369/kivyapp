@@ -76,7 +76,7 @@ jobs:
         git --version
 
         echo "Building APK...!!"
-        buildozer android clean
+        #buildozer android clean
         buildozer android debug
 
     - name: Upload APK
