@@ -47,11 +47,6 @@ jobs:
     - name: Ensure git installed
       run: sudo apt-get install -y git
 
-    - name: Clean old build cache
-      run: |
-        rm -rf .buildozer bin
-
-
     - name: Build APK
       env:
         ANDROID_SDK_ROOT: ${{ env.HOME }}/android-sdk
@@ -59,10 +54,7 @@ jobs:
       run: |
         echo "Git version in PATH:"
         git --version
-
-        echo "Cleaning previous build...!"
-        buildozer android clean
-
+       
         echo "Building APK..."
         buildozer android debug
 
