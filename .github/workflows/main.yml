@@ -76,7 +76,6 @@ jobs:
         git --version
 
         echo "Building APK...!!"
-        source venv/bin/activate
         buildozer android clean
         buildozer android debug
 
