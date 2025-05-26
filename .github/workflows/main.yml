@@ -53,7 +53,7 @@ jobs:
         ANDROID_SDK_ROOT: ${{ env.HOME }}/android-sdk
         PATH: ${{ env.HOME }}/.local/bin:${{ env.HOME }}/android-sdk/build-tools/33.0.2:${{ env.HOME }}/android-sdk/platform-tools:${{ env.HOME }}/android-sdk/cmdline-tools/latest/bin:$PATH
       run: |
-	    which aidl
+        which aidl
         buildozer android debug
 
     - name: Upload APK
