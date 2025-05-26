@@ -15,7 +15,8 @@ android.ndk = 23b
 android.ndk_api = 21
 android.minapi = 21
 android.permissions = INTERNET
-android.sdk_path = $HOME/android-sdk
+android.sdk_path = /home/runner/android-sdk
+android.ndk_path = /home/runner/android-sdk/ndk/23.1.7779620
 
 
 [buildozer]
