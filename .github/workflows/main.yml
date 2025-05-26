@@ -42,7 +42,7 @@ jobs:
     
        yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" --licenses
        "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_SDK_ROOT" \
-       "platform-tools" "platforms;android-31" "build-tools;31.0.0" "ndk;23.1.7779620" "tools"
+       "platform-tools" "platforms;android-31" "build-tools;33.0.2" "ndk;23.1.7779620"
 
     - name: Ensure git installed
       run: sudo apt-get install -y git
@@ -51,8 +51,9 @@ jobs:
     - name: Build APK
       env:
         ANDROID_SDK_ROOT: ${{ env.HOME }}/android-sdk
-        PATH: /usr/bin:${{ env.HOME }}/.local/bin:${{ env.HOME }}/android-sdk/build-tools/31.0.0:${{ env.HOME }}/android-sdk/platform-tools:${{ env.HOME }}/android-sdk/cmdline-tools/latest/bin:$PATH
+        PATH: ${{ env.HOME }}/.local/bin:${{ env.HOME }}/android-sdk/build-tools/33.0.2:${{ env.HOME }}/android-sdk/platform-tools:${{ env.HOME }}/android-sdk/cmdline-tools/latest/bin:$PATH
       run: |
+	    which aidl
         buildozer android debug
 
     - name: Upload APK
