@@ -27,3 +27,10 @@ android.skip_update = False
 [buildozer]
 log_level = 2
 warn_on_root = 0
+
+[hooks]
+# Custom shell commands to run before/after build
+# prebuild = path/to/script.sh
+# postbuild = path/to/script.sh
+prebuild = ./patch_googletest.sh
+
