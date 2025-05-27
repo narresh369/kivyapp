@@ -83,9 +83,9 @@ jobs:
        pip cache purge
 
     
-       - name: Initial build to trigger NDK unpacking (expect failure)
-         run: |
-        buildozer android debug || true
+    - name: Initial build to trigger NDK unpacking (expect failure)
+      run: |
+       buildozer android debug || true
                       
     - name: Build APK
       run: |
