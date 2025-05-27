@@ -11,7 +11,9 @@ orientation = portrait
 osx.python_version = 3
 # Prevent Buildozer from copying these problematic scripts into the APK
 exclude_source = */googletest/scripts/*
-exclude_patterns = */googletest/scripts/gen_gtest_pred_impl.py
+#exclude_patterns = */googletest/scripts/gen_gtest_pred_impl.py
+exclude_patterns = */tests/*,*/test/*,*/__pycache__/*,*/docs/*,*/examples/*,*/googletest/scripts/*,*/gen_gtest_pred_impl.py
+
 
 #Android  specific
 android.api = 31
