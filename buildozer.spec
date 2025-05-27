@@ -12,8 +12,8 @@ osx.python_version = 3
 
 
 #Android  specific
-## android.api = 31
-android.sdk = 31
+android.api = 31
+#android.sdk = 31
 android.ndk_api = 21
 android.minapi = 21
 android.permissions = INTERNET
