@@ -85,7 +85,7 @@ jobs:
       run: |
         echo "Git version in PATH:"
         git --version
-        echo "Cleaning old build caches..."
+        echo "Cleaning old build caches...."
         rm -rf .buildozer .cache ~/.buildozer ~/.gradle ~/.local/lib/python3.9/site-packages/pyjnius*
         pip cache purge || true
 
