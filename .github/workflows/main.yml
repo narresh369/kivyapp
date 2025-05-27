@@ -70,6 +70,10 @@ jobs:
           echo "Old NDK 23 directory does not exist"
         fi
         
+    - name: Clear previous build and cache
+       run:|
+       rm -rf .buildozer .cache ~/.buildozer ~/.gradle
+    
     - name: Build APK
       run: |
         echo "Git version in PATH:"
