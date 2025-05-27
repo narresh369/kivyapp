@@ -26,6 +26,7 @@ jobs:
         sudo apt update
         sudo apt install -y zip unzip openjdk-17-jdk python3-pip git libssl-dev libltdl-dev libtool-bin libtool automake autoconf m4
         pip install --upgrade pip setuptools wheel cython buildozer virtualenv
+        cython jnius/jnius.pyx
 
     - name: Set up Android SDK
       run: |
