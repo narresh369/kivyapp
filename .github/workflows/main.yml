@@ -69,6 +69,17 @@ jobs:
         else
           echo "Old NDK 23 directory does not exist"
         fi
+
+    - name: Clean Buildozer Cache
+      run: |
+       rm -rf .buildozer
+       rm -rf .cache
+       rm -rf ~/.buildozer
+
+    - name: Clear pip cache
+      run: |
+       pip cache purge
+
             
     - name: Build APK
       run: |
