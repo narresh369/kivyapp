@@ -91,7 +91,7 @@ jobs:
         rm -rf .buildozer .cache ~/.buildozer ~/.gradle ~/.local/lib/python3.9/site-packages/pyjnius*
         pip cache purge || true
 
-        echo "Building APK...!!"
+        echo "Building APK...!!!"
         #buildozer android clean
         buildozer android debug --requirement-cleanup --force-build
 
