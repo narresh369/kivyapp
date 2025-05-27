@@ -22,9 +22,12 @@ android.permissions = INTERNET
 android.sdk_path = /home/runner/android-sdk
 android.ndk = 25b
 android.ndk_path = /home/runner/android-sdk/ndk/25.2.9519653
+android.ignore_setup_py = True
 
 android.accept_sdk_license = True
 android.skip_update = False
+
+p4a.local_recipes = ./recipes
 
 [buildozer]
 log_level = 2
