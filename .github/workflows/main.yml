@@ -81,6 +81,16 @@ jobs:
     - name: Clear pip cache
       run: |
        pip cache purge
+
+    - name: Patch NDK gtest print statements
+      run: |
+       sed -i 's/print\s\+\(.*\)/print(\1)/' /home/runner/work/kivyapp/kivyapp/.buildozer/android/app/android-sdk/ndk/25.2.9519653/sources/third_party/googletest/scripts/gen_gtest_pred_impl.py || true
+
+    - name: Patch all Python 2 code in NDK
+      run: |
+       NDK_PATH=/home/runner/work/kivyapp/kivyapp/.buildozer/android/app/android-sdk/ndk/25.2.9519653
+       2to3 -w $NDK_PATH/sources/third_party/googletest/scripts/
+
                
     - name: Build APK
       run: |
