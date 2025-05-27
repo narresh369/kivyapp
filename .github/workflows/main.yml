@@ -83,14 +83,14 @@ jobs:
        pip cache purge
 
     
-    - name: Patch Python 2 files in googletest (if present)
+    - name: Disable problematic gtest Python 2 script
       run: |
-       PATCH_DIR=".buildozer/android/app/android-sdk/ndk/25.2.9519653/sources/third_party/googletest/scripts"
-        if [ -d "$PATCH_DIR" ]; then
-          echo "Found $PATCH_DIR. Running 2to3 to convert Python 2 to 3..."
-          find "$PATCH_DIR" -name "*.py" -exec 2to3 -w {} \;
+       TARGET_FILE=".buildozer/android/app/android-sdk/ndk/25.2.9519653/sources/third_party/googletest/scripts/gen_gtest_pred_impl.py"
+        if [ -f "$TARGET_FILE" ]; then
+         echo "Emptying legacy Python 2 script to avoid SyntaxError..."
+         echo "#!/usr/bin/env python3\n# patched for python3 build\n" > "$TARGET_FILE"
         else
-          echo "Directory $PATCH_DIR not found, skipping patch."
+         echo "No need to patch, file not found."
         fi
                       
     - name: Build APK
