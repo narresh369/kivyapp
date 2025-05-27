@@ -63,15 +63,7 @@ jobs:
         echo "ANDROID_NDK_HOME=${ANDROID_SDK_ROOT}/ndk/25.2.9519653" >> $GITHUB_ENV
         echo "PATH=${ANDROID_SDK_ROOT}/build-tools/33.0.2:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:$PATH" >> $GITHUB_ENV
 
-    - name: Clean old NDK directory if exists
-      run: |
-        if [ -d "${ANDROID_SDK_ROOT}/ndk/23.1.7779620" ]; then
-          rm -rf "${ANDROID_SDK_ROOT}/ndk/23.1.7779620"
-          echo "Old NDK 23 directory removed"
-        else
-          echo "Old NDK 23 directory does not exist"
-        fi
-
+ 
     - name: Clean Buildozer Cache
       run: |
        rm -rf .buildozer
@@ -81,34 +73,10 @@ jobs:
     - name: Clear pip cache
       run: |
        pip cache purge
+  
+   
 
-    
-    - name: Step 1:Let Buildozer extract NDK (expect failure)
-      run: |
-        echo "⚙️ Initial build attempt to trigger NDK extraction"
-        set +e  # Don't stop on error
-        buildozer android debug --requirement-cleanup --force-build
-        echo "✅ NDK extraction phase complete"
-
-    - name: Step 2:Patch gtest script to avoid Python 2 error
-      run: |
-        TARGET=".buildozer/android/app/android-sdk/ndk/25.2.9519653/sources/third_party/googletest/scripts/gen_gtest_pred_impl.py"
-        TIMEOUT=60
-        ELAPSED=0
-        echo "⏳ Waiting for $TARGET to exist..."
-        while [ ! -f "$TARGET" ]; do
-          sleep 1
-          ELAPSED=$((ELAPSED + 1))
-          if [ "$ELAPSED" -ge "$TIMEOUT" ]; then
-            echo "❌ Timeout: File not found after $TIMEOUT seconds"
-            exit 1
-          fi
-        done
-        echo "# Patched for Python 3 compatibility" > "$TARGET"
-        echo "print('Stub script')" >> "$TARGET"
-        echo "✅ Patched $TARGET"
-
-    - name: Step 3:Build APK after patch
+    - name: Build APK
       run: |
         echo "🔁 Re-running Buildozer to generate APK..."
         buildozer android debug --requirement-cleanup --force-build
