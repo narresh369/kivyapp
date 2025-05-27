@@ -83,15 +83,13 @@ jobs:
        pip cache purge
 
     
-    - name: Disable problematic gtest Python 2 script
+    - name: Patch gtest script to avoid Python 2 error
       run: |
-       TARGET_FILE=".buildozer/android/app/android-sdk/ndk/25.2.9519653/sources/third_party/googletest/scripts/gen_gtest_pred_impl.py"
-        if [ -f "$TARGET_FILE" ]; then
-         echo "Emptying legacy Python 2 script to avoid SyntaxError..."
-         echo "#!/usr/bin/env python3\n# patched for python3 build\n" > "$TARGET_FILE"
-        else
-         echo "No need to patch, file not found."
-        fi
+        TARGET=".buildozer/android/app/android-sdk/ndk/25.2.9519653/sources/third_party/googletest/scripts/gen_gtest_pred_impl.py"
+        echo "Waiting for NDK to extract..."
+        while [ ! -f "$TARGET" ]; do sleep 1; done
+        echo "# Patched for Python 3 compatibility\nprint('Stub script')" > "$TARGET"
+        echo "✅ Patched $TARGET"
                       
     - name: Build APK
       run: |
