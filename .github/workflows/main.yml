@@ -79,7 +79,7 @@ jobs:
         pip cache purge || true
 
         echo "Building APK...!!"
-        #buildozer android clean
+        buildozer android clean
         buildozer android debug --requirement-cleanup --force-build
 
     - name: Upload APK
