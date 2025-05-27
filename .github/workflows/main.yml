@@ -83,9 +83,15 @@ jobs:
        pip cache purge
 
     
-    - name: Initial build to trigger NDK unpacking (expect failure)
+    - name: Patch Python 2 files in googletest (if present)
       run: |
-       buildozer android debug || true
+       PATCH_DIR=".buildozer/android/app/android-sdk/ndk/25.2.9519653/sources/third_party/googletest/scripts"
+        if [ -d "$PATCH_DIR" ]; then
+          echo "Found $PATCH_DIR. Running 2to3 to convert Python 2 to 3..."
+          find "$PATCH_DIR" -name "*.py" -exec 2to3 -w {} \;
+        else
+          echo "Directory $PATCH_DIR not found, skipping patch."
+        fi
                       
     - name: Build APK
       run: |
