@@ -83,10 +83,25 @@ jobs:
        pip cache purge
 
     
-    - name: Patch all Python 2 code in NDK
+       - name: Initial build to trigger NDK unpacking (expect failure)
+         run: |
+        buildozer android debug || true
+
+    - name: Patch all Python 2 code in NDK after unpacking
       run: |
-       NDK_PATH=/home/runner/work/kivyapp/kivyapp/.buildozer/android/app/android-sdk/ndk/25.2.9519653
-       2to3 -w $NDK_PATH/sources/third_party/googletest/scripts/
+        PATCH_DIR=".buildozer/android/app/android-sdk/ndk/25.2.9519653/sources/third_party/googletest/scripts"
+        echo "Waiting for NDK patch directory to be ready..."
+        for i in {1..30}; do
+          if [ -d "$PATCH_DIR" ]; then
+            echo "Found $PATCH_DIR. Running 2to3..."
+            2to3 -w "$PATCH_DIR"
+            break
+          else
+            echo "Attempt $i: $PATCH_DIR not ready yet. Retrying in 5s..."
+            sleep 5
+          fi
+        done
+
 
                
     - name: Build APK
