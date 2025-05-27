@@ -9,7 +9,8 @@ requirements = python3,kivy,git+https://github.com/narresh369/pyjnius.git@master
 #requirements = python3,kivy,./libs/pyjnius
 orientation = portrait
 osx.python_version = 3
-
+# Prevent Buildozer from copying these problematic scripts into the APK
+exclude_source = */googletest/scripts/*
 
 #Android  specific
 android.api = 31
