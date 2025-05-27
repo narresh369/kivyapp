@@ -81,11 +81,7 @@ jobs:
     - name: Clear pip cache
       run: |
        pip cache purge
-
-    - name: Make patch script executable
-      run: chmod +x patch_googletest.sh
-
-            
+               
     - name: Build APK
       run: |
         echo "Git version in PATH:"
