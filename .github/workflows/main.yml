@@ -74,11 +74,13 @@ jobs:
       run: |
         echo "Git version in PATH:"
         git --version
-        rm -rf .buildozer .cache ~/.buildozer ~/.gradle
+        echo "Cleaning old build caches..."
+        rm -rf .buildozer .cache ~/.buildozer ~/.gradle ~/.local/lib/python3.9/site-packages/pyjnius*
+        pip cache purge || true
 
         echo "Building APK...!!"
         #buildozer android clean
-        buildozer android debug --force-build
+        buildozer android debug --requirement-cleanup --force-build
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
