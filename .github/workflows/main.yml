@@ -74,14 +74,17 @@ jobs:
       run: |
        pip cache purge
   
-    - name: Patch googletest Python2 print issue
+    - name: Patch googletest Python2 print issue in NDK
       run: |
-        GTEST_FILE=$(find .buildozer -name gen_gtest_pred_impl.py | head -n 1)
+        GTEST_FILE="${ANDROID_SDK_ROOT}/ndk/25.2.9519653/sources/third_party/googletest/scripts/gen_gtest_pred_impl.py"
         if [ -f "$GTEST_FILE" ]; then
-          echo "Patching $GTEST_FILE to use Python 3 syntax..."
-          sed -i 's/^print\s\+\(.*\)$/print(\1)/' "$GTEST_FILE"
+          echo "✅ Patching $GTEST_FILE to use Python 3 syntax..."
+          sed -i "s/^print\s\+\(.*\)$/print(\1)/" "$GTEST_FILE"
+          echo "✅ Patch complete. Verifying change:"
+          grep -n 'print' "$GTEST_FILE" | head -n 5
         else
-          echo "Googletest Python script not found in .buildozer"
+          echo "❌ File not found: $GTEST_FILE"
+          exit 1
         fi
 
 
