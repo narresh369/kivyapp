@@ -76,10 +76,12 @@ jobs:
   
     - name: Patch googletest Python2 print issue
       run: |
-        GTEST_FILE="${ANDROID_SDK_ROOT}/ndk/25.2.9519653/sources/third_party/googletest/scripts/gen_gtest_pred_impl.py"
+        GTEST_FILE=$(find .buildozer -name gen_gtest_pred_impl.py | head -n 1)
         if [ -f "$GTEST_FILE" ]; then
           echo "Patching $GTEST_FILE to use Python 3 syntax..."
           sed -i 's/^print\s\+\(.*\)$/print(\1)/' "$GTEST_FILE"
+        else
+          echo "Googletest Python script not found in .buildozer"
         fi
 
 
