@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Google Maps Route</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+        #map {
+            height: 100vh;
+            width: 100vw;
+        }
+    </style>
+    <style>
+        .custom-infobox {
+            background-color: navy;
+            color: white;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            max-width: 250px;
+            position: absolute;
+            padding: 10px 15px;
+            z-index: 100;
+            
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            color: white;
+        }
+    </style>
+    <style>
+        #arrival-popup .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9998;
+        }
+    
+        #arrival-popup .popup-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: #333;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 9999;
+            animation: fadeInScale 0.3s ease-in-out;
+        }
+    
+        #arrival-popup .popup-box h2 {
+            margin-top: 0;
+            color: #007bff;
+            font-size: 20px;
+        }
+    
+        #arrival-popup .popup-box button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #007bff;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    
+        #arrival-popup .popup-box button:hover {
+            background: #0056b3;
+        }
+    
+        @keyframes fadeInScale {
+            from {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 0;
+            }
+    
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+        
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6X7CzQO7p9nm_uqMQv_lOo1t_oMPA0hQ"></script>
+    <script>
+        let map, marker, route, infoWindow, geocoder;
+		
+		let routeReady = false;
+
+        function initMap() {
+                const start = { lat: 17.733196, lng: 83.325485 };
+                const end = { lat: 17.735000, lng: 83.330000 };
+
+                map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 15,
+                    center: start,
+                });
+
+                geocoder = new google.maps.Geocoder();
+
+                // Static marker for InfoWindow
+            const staticStartMarker = new google.maps.Marker({
+                position: start,
+                map: map,
+                icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
+            });
+
+                marker = new google.maps.Marker({
+                    position: start,
+                    map: map,
+                    icon: "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                });
+
+                // End marker
+                const endMarker = new google.maps.Marker({
+                    position: end,
+                    map: map,
+                    icon: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                });
+
+                // Get addresses and add static info windows
+                geocoder.geocode({ location: start }, (results, status) => {
+                    if (status === "OK" && results[0]) {
+                        const startInfo = new google.maps.InfoWindow({
+                            content: `
+                            <div style="
+                                background-color: red;
+                                color: white;
+                                padding: 8px 12px;
+                                border-radius: 6px;
+                                font-family: Arial, sans-serif;
+                                font-size: 12px;
+                                max-width: 200px;
+                            ">
+                                <strong>Accident Spot:</strong><br>${results[0].formatted_address}
+                            </div>
+                        `
+                        });
+
+                        startInfo.open(map, staticStartMarker);
+                        google.maps.event.addListenerOnce(startInfo, 'domready', () => {
+                            const closeButtons = document.querySelectorAll('.gm-ui-hover-effect');
+                            closeButtons.forEach(btn => btn.style.display = 'none');
+                        });
+                       
+                    }
+                });
+
+                geocoder.geocode({ location: end }, (results, status) => {
+                    if (status === "OK" && results[0]) {
+                        const endInfo = new google.maps.InfoWindow({
+                            content: `
+                            <div style="
+                                background-color: green;
+                                color: white;
+                                padding: 8px 12px;
+                                border-radius: 6px;
+                                font-family: Arial, sans-serif;
+                                font-size: 12px;
+                                max-width: 200px;
+                            ">
+                            <strong>Nearest Hospital:</strong><br>${results[0].formatted_address}
+                             </div>`,
+                        });
+                        endInfo.open(map, endMarker);       
+                        google.maps.event.addListenerOnce(endInfo, 'domready', () => {
+                            const closeButtons = document.querySelectorAll('.gm-ui-hover-effect');
+                            closeButtons.forEach(btn => btn.style.display = 'none');
+                        });                 
+                    }
+                });
+
+                // Draw route
+                const directionsService = new google.maps.DirectionsService();
+                const directionsRenderer = new google.maps.DirectionsRenderer({
+                    suppressMarkers: true,
+                });
+                directionsRenderer.setMap(map);
+
+                directionsService.route(
+                    {
+                        origin: start,
+                        destination: end,
+                        travelMode: google.maps.TravelMode.DRIVING,
+                    },
+                    (response, status) => {
+                        if (status === "OK") {
+                            directionsRenderer.setDirections(response);
+                            route = response.routes[0].overview_path;
+							routeReady = true; // ✅ Ready to move marker now
+                        } else {
+                            alert("Directions request failed: " + status);
+                        }
+                    }
+                );
+            }
+
+                function showArrivalPopup() {
+                    document.getElementById("arrival-popup").style.display = "block";
+                }
+
+                function closePopup() {
+                    document.getElementById("arrival-popup").style.display = "none";
+                }
+
+        function moveMarkerTo(index) {
+		  if (!routeReady) return; // ⛔ Route not yet ready
+            if (route && index < route.length) {
+                const position = route[index];
+                marker.setPosition(position);
+                map.panTo(position);
+                updateAddress(position);     
+                
+                 // Check if we reached the destination
+                if (index === route.length - 1) {
+                    //alert("Ambulance has reached the destination!");
+                    showArrivalPopup();  // Show beautiful popup
+
+                    // Notify Python backend (optional)
+                   /*  if (window.pywebview) {
+                        window.pywebview.api.notify_arrival();
+                    } */
+                }
+            }           
+        }
+
+        function updateAddress(latlng) {
+            geocoder.geocode({ location: latlng }, (results, status) => {
+                if (status === "OK" && results[0]) {
+                    createCustomInfoBox(latlng, results[0].formatted_address);
+                } else {
+                    createCustomInfoBox(latlng, "Address not found");
+                }
+            });
+        }
+
+        /* -------------------------------------------------------- */
+        let customOverlay;
+
+            function createCustomInfoBox(latlng, address) {
+                if (customOverlay) {
+                    customOverlay.setMap(null);
+                }
+
+                class CustomOverlay extends google.maps.OverlayView {
+                    constructor(position, content) {
+                        super();
+                        this.position = position;
+                        this.content = content;
+                        this.div = null;
+                    }
+
+                    onAdd() {
+                        this.div = document.createElement('div');
+                        this.div.className = 'custom-infobox';
+                        this.div.innerHTML = `
+                <div class="close-btn" onclick="removeCustomInfoBox()">✕</div>
+                ${this.content}
+            `;
+                        const panes = this.getPanes();
+                        panes.floatPane.appendChild(this.div);
+                    }
+
+                    draw() {
+                        const overlayProjection = this.getProjection();
+                        const pixel = overlayProjection.fromLatLngToDivPixel(this.position);
+                        if (this.div) {
+                            this.div.style.left = pixel.x - this.div.offsetWidth / 2 + "px";
+                            this.div.style.top = pixel.y - this.div.offsetHeight - 35 + "px";
+
+                        }
+                    }
+
+                    onRemove() {
+                        if (this.div && this.div.parentNode) {
+                            this.div.parentNode.removeChild(this.div);
+                            this.div = null;
+                        }
+                    }
+                }
+
+                customOverlay = new CustomOverlay(latlng, address);
+                customOverlay.setMap(map);
+            }
+
+            function removeCustomInfoBox() {
+                if (customOverlay) {
+                    customOverlay.setMap(null);
+                    customOverlay = null;
+                }
+            }
+
+        /* ------------------------------------------------------------- */
+        window.onload = initMap;
+        window.moveMarkerTo = moveMarkerTo;
+    </script>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="arrival-popup" style="display:none;">
+        <div class="popup-overlay"></div>
+        <div class="popup-box">
+            <h2>Ambulance Arrived Hospital 🚑</h2>
+            <p>Ambulance has reached hospital safely.</p>
+            <button onclick="closePopup()">OK</button>
+        </div>
+    </div>
+      
+</body>
+
+</html>
