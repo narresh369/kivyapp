@@ -83,7 +83,7 @@ class RegisterScreen(Screen):
         self.bg_rect.size = instance.size
 
     def go_back(self):
-        App.get_running_app().root.current = "home"
+        App.get_running_app().root.current = "register"
 
     def show_popup(self, title, message):
         popup_layout = BoxLayout(
@@ -221,7 +221,7 @@ class RegisterScreen(Screen):
                 Clock.schedule_once(lambda dt: (
                     self.hide_loading(),
                     self.show_popup("Success", "Registration successful!"),
-                    setattr(App.get_running_app().root, "current", "home")
+                    setattr(App.get_running_app().root, "current", "main")
                 ), 0)
             else:
                 raise Exception(response.text)
