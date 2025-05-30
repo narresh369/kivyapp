@@ -39,7 +39,7 @@ jobs:
         libtool --version
 
     - name: Install Kivy Garden mapview
-      run: sudo garden install mapview
+      run: python -m garden install mapview
 
 
     - name: Set up Android SDK
