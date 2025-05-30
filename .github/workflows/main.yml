@@ -28,10 +28,7 @@ jobs:
         pip install --upgrade pip setuptools wheel buildozer virtualenv
         pip install --upgrade Cython==0.29.33
         pip install kivy-garden
-       
-        # ✅ Now safe to run this
-        sudo garden install mapview
-        
+         
         sudo apt-get update
         sudo apt-get install -y libtool
         sudo ln -s /usr/share/aclocal /usr/local/share/aclocal || true
@@ -40,7 +37,10 @@ jobs:
         sudo apt install -y libtool libtool-bin
 
         libtool --version
-        
+
+    - name: Install Kivy Garden mapview
+      run: sudo garden install mapview
+
 
     - name: Set up Android SDK
       run: |
