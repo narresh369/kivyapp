@@ -28,12 +28,9 @@ jobs:
         pip install --upgrade pip setuptools wheel buildozer virtualenv
         pip install --upgrade Cython==0.29.33
         pip install kivy-garden
-
-        # 🔧 Fix executable permission for garden
-        chmod +x "$(which garden)"
-
+       
         # ✅ Now safe to run this
-        garden install mapview
+        sudo garden install mapview
         
         sudo apt-get update
         sudo apt-get install -y libtool
